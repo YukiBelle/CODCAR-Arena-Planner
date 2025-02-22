@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFXIV Arena Layout</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        canvas { border: 1px solid black; }
+        .controls { margin-top: 10px; }
+        .name-input { margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>FFXIV Arena Layout</h1>
+    <canvas id="arenaCanvas" width="600" height="600"></canvas>
+    <div class="controls">
+        <label for="playerName">Enter Name:</label>
+        <input type="text" id="playerName" class="name-input">
+        <label for="symbol">Choose Symbol:</label>
+        <select id="symbol">
+            <option value="⚔️">⚔️</option>
+            <option value="🛡️">🛡️</option>
+            <option value="🔮">🔮</option>
+        </select>
+        <button onclick="placeName()">Place Name</button>
+        <button onclick="exportImage()">Save Layout</button>
+    </div>
+    <script>
+        const canvas = document.getElementById("arenaCanvas");
+        const ctx = canvas.getContext("2d");
+        const arenaImage = new Image();
+        arenaImage.src = "arena.jpg"; // Replace with your actual image file
+        
+        arenaImage.onload = function() {
+            ctx.drawImage(arenaImage, 0, 0, canvas.width, canvas.height);
+        };
+        
+        function placeName() {
+            const name = document.getElementById("playerName").value;
+            const symbol = document.getElementById("symbol").value;
+            if (!name) return;
+            
+            // Example position (adjust based on role presets)
+            const x = 300; 
+            const y = 300; 
+            
+            ctx.fillStyle = "white";
+            ctx.fillRect(x - 30, y - 15, 100, 30);
+            ctx.fillStyle = "black";
+            ctx.fillText(symbol + " " + name, x, y);
+        }
+        
+        function exportImage() {
+            const link = document.createElement("a");
+            link.download = "arena_layout.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+    </script>
+</body>
+</html>
