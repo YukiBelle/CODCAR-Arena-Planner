@@ -37,50 +37,50 @@
     <div style="position: relative; display: inline-block;">
         <canvas id="arenaCanvas" width="1920" height="1080"></canvas>
         <!-- A1 DPS Boxes -->
-		<input type="text" class="text-box dps" style="left: 143px; top: 609px;" placeholder="DPS" oninput="resizeInput(this)">
+        <input type="text" class="text-box dps" style="left: 143px; top: 609px;" placeholder="DPS" oninput="resizeInput(this)">
         <input type="text" class="text-box dps" style="left: 241px; top: 650px;" placeholder="DPS" oninput="resizeInput(this)">
-		<!-- A2 DPS Boxes -->
-	    <input type="text" class="text-box dps" style="left: 1607px; top: 403px;" placeholder="DPS" oninput="resizeInput(this)">
-        <input type="text" class="text-box dps" style="left: 1723px; top: 445px;" placeholder="DPS" oninput="resizeInput(this)">	
+        <!-- A2 DPS Boxes -->
+        <input type="text" class="text-box dps" style="left: 1607px; top: 403px;" placeholder="DPS" oninput="resizeInput(this)">
+        <input type="text" class="text-box dps" style="left: 1723px; top: 445px;" placeholder="DPS" oninput="resizeInput(this)">    
         <!-- B1/B2 Platform DPS Boxes -->
         <input type="text" class="text-box dps" style="left: 241px; top: 403px;" placeholder="DPS" oninput="resizeInput(this)">
         <input type="text" class="text-box dps" style="left: 393px; top: 525px;" placeholder="DPS" oninput="resizeInput(this)">
         <!-- C1/C2 Platform DPS Boxes -->
         <input type="text" class="text-box dps" style="left: 1607px; top: 650px;" placeholder="DPS" oninput="resizeInput(this)">
         <input type="text" class="text-box dps" style="left: 1439px; top: 527px;" placeholder="DPS" oninput="resizeInput(this)">
-		<!-- B1 Tile DPS Boxes -->
+        <!-- B1 Tile DPS Boxes -->
         <input type="text" class="text-box dps" style="left: 567px; top: 72px;" placeholder="DPS" oninput="resizeInput(this)">
-		<!-- B2 Tile DPS Boxes -->
+        <!-- B2 Tile DPS Boxes -->
         <input type="text" class="text-box dps" style="left: 563px; top: 983px;" placeholder="DPS" oninput="resizeInput(this)">
-		<!-- C1 Tile DPS Boxes -->
+        <!-- C1 Tile DPS Boxes -->
         <input type="text" class="text-box dps" style="left: 1230px; top: 72px;" placeholder="DPS" oninput="resizeInput(this)">
-		<!-- C2 Tile DPS Boxes -->
+        <!-- C2 Tile DPS Boxes -->
         <input type="text" class="text-box dps" style="left: 1230px; top: 983px;" placeholder="DPS" oninput="resizeInput(this)">
         
         <!-- A1 Healer Box -->
         <input type="text" class="text-box healer" style="left: 143px; top: 444px;" placeholder="HEALER" oninput="resizeInput(this)">
-		<!-- A2 Healer Box -->
+        <!-- A2 Healer Box -->
         <input type="text" class="text-box healer" style="left: 1723px; top: 607px;" placeholder="HEALER" oninput="resizeInput(this)">
-		<!-- B1 Healer Box -->
+        <!-- B1 Healer Box -->
         <input type="text" class="text-box healer" style="left: 434px; top: 199px;" placeholder="HEALER" oninput="resizeInput(this)">
-		<!-- B2 Healer Box -->
+        <!-- B2 Healer Box -->
         <input type="text" class="text-box healer" style="left: 428px; top: 852px;" placeholder="HEALER" oninput="resizeInput(this)">
-		<!-- C1 Healer Box -->
+        <!-- C1 Healer Box -->
         <input type="text" class="text-box healer" style="left: 1360px; top: 199px;" placeholder="HEALER" oninput="resizeInput(this)">
-		<!-- C2 Healer Box -->
+        <!-- C2 Healer Box -->
         <input type="text" class="text-box healer" style="left: 1367px; top: 852px;" placeholder="HEALER" oninput="resizeInput(this)">
         
         <!-- A1 Tank Box -->
         <input type="text" class="text-box tank" style="left: 85px; top: 526px;" placeholder="TANK" oninput="resizeInput(this)">
-        <!-- A2 Tank Box -->		
+        <!-- A2 Tank Box -->        
         <input type="text" class="text-box tank" style="left: 1767px; top: 526px;" placeholder="TANK" oninput="resizeInput(this)">
-		<!-- B1 Tank Box -->	
+        <!-- B1 Tank Box -->    
         <input type="text" class="text-box tank" style="left: 700px; top: 199px;" placeholder="TANK" oninput="resizeInput(this)">
-		<!-- B2 Tank Box -->	
+        <!-- B2 Tank Box -->    
         <input type="text" class="text-box tank" style="left: 700px; top: 852px;" placeholder="TANK" oninput="resizeInput(this)">
-		<!-- C1 Tank Box -->	
+        <!-- C1 Tank Box -->    
         <input type="text" class="text-box tank" style="left: 1095px; top: 199px;" placeholder="TANK" oninput="resizeInput(this)">
-		<!-- C2 Tank Box -->	
+        <!-- C2 Tank Box -->    
         <input type="text" class="text-box tank" style="left: 1095px; top: 852px;" placeholder="TANK" oninput="resizeInput(this)">
     </div>
     <div class="controls">
@@ -111,10 +111,19 @@
             const textBoxes = document.querySelectorAll('.text-box');
             textBoxes.forEach(box => {
                 const x = parseInt(box.style.left, 10);
-                const y = parseInt(box.style.top, 10) + 16; // Adjust for text baseline
-                ctx.fillStyle = box.style.color;
+                const y = parseInt(box.style.top, 10);
+
+                // Draw the box
+                ctx.fillStyle = 'white';
+                ctx.fillRect(x, y, box.offsetWidth, box.offsetHeight);
+                ctx.strokeStyle = window.getComputedStyle(box).borderColor;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, y, box.offsetWidth, box.offsetHeight);
+
+                // Draw the text
+                ctx.fillStyle = window.getComputedStyle(box).color;
                 ctx.font = '16px Arial';
-                ctx.fillText(box.value || box.placeholder, x, y);
+                ctx.fillText(box.value || box.placeholder, x + 5, y + 16); // Adjust for padding and baseline
             });
 
             // Export canvas
