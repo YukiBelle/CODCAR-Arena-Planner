@@ -113,15 +113,28 @@
                 const x = parseInt(box.style.left, 10);
                 const y = parseInt(box.style.top, 10);
 
+                // Determine colors based on class
+                let borderColor, textColor;
+                if (box.classList.contains('healer')) {
+                    borderColor = '#20b82b';
+                    textColor = '#20b82b';
+                } else if (box.classList.contains('tank')) {
+                    borderColor = '#1864d6';
+                    textColor = '#1864d6';
+                } else if (box.classList.contains('dps')) {
+                    borderColor = '#d61818';
+                    textColor = '#d61818';
+                }
+
                 // Draw the box
                 ctx.fillStyle = 'white';
                 ctx.fillRect(x, y, box.offsetWidth, box.offsetHeight);
-                ctx.strokeStyle = window.getComputedStyle(box).borderColor;
+                ctx.strokeStyle = borderColor;
                 ctx.lineWidth = 2;
                 ctx.strokeRect(x, y, box.offsetWidth, box.offsetHeight);
 
                 // Draw the text
-                ctx.fillStyle = window.getComputedStyle(box).color;
+                ctx.fillStyle = textColor;
                 ctx.font = '14px Arial';
                 ctx.fillText(box.value || box.placeholder, x + 5, y + 16); // Adjust for padding and baseline
             });
