@@ -30,6 +30,13 @@
             font-family: Arial, sans-serif;
             font-size: 16px;
         }
+        .reset-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -85,6 +92,7 @@
     </div>
     <div class="controls">
         <button onclick="exportImage()">Save Image</button>
+        <button class="reset-button" onclick="resetLayout()">Reset Layout</button>
         <br><br>
         <b><u>Save & Load Layout (Future edits)</u></b>
         <br>
@@ -181,6 +189,15 @@
             } else {
                 alert('No saved layout found.');
             }
+        }
+
+        function resetLayout() {
+            const textBoxes = document.querySelectorAll('.text-box');
+            textBoxes.forEach(box => {
+                box.value = '';
+                resizeInput(box);
+            });
+            alert('Layout reset to default!');
         }
     </script>
 </body>
