@@ -7,7 +7,7 @@
     <style>
         body { text-align: center; font-family: Arial, sans-serif; position: relative; }
         canvas { border: 1px solid black; }
-        .controls { margin-top: 10px; }
+        .controls { margin-top: 20px; }
         .name-input { margin: 5px; }
         .text-box {
             position: absolute;
@@ -84,14 +84,19 @@
         <input type="text" class="text-box tank" style="left: 1124px; top: 852px;" placeholder="TANK" oninput="resizeInput(this)">
     </div>
     <div class="controls">
-        <button onclick="exportImage()">Save Layout</button>
+        <button onclick="exportImage()">Save Image</button>
+        <br><br>
+        <b><u>Save & Load Layout (Future edits)</u></b>
+        <br>
+        <button onclick="saveLayout()">Save JSON</button>
+        <button onclick="loadLayout()">Load JSON</button>
     </div>
     <span id="text-measure"></span>
     <script>
         const canvas = document.getElementById("arenaCanvas");
         const ctx = canvas.getContext("2d");
         const arenaImage = new Image();
-        arenaImage.src = "arena.jpg"; // Image name for repository
+        arenaImage.src = "arena.jpg"; // Ensure this path is correct and the image is in the repository
         
         arenaImage.onload = function() {
             ctx.drawImage(arenaImage, 0, 0, canvas.width, canvas.height);
@@ -144,6 +149,38 @@
             link.download = "CODCAR_layout.png";
             link.href = canvas.toDataURL("image/png");
             link.click();
+        }
+
+        function saveLayout() {
+            const layout = [];
+            const textBoxes = document.querySelectorAll('.text-box');
+            textBoxes.forEach(box => {
+                layout.push({
+                    class: box.className,
+                    left: box.style.left,
+                    top: box.style.top,
+                    value: box.value
+                });
+            });
+            localStorage.setItem('layout', JSON.stringify(layout));
+            alert('Layout saved!');
+        }
+
+        function loadLayout() {
+            const layout = JSON.parse(localStorage.getItem('layout'));
+            if (layout) {
+                const textBoxes = document.querySelectorAll('.text-box');
+                textBoxes.forEach((box, index) => {
+                    box.className = layout[index].class;
+                    box.style.left = layout[index].left;
+                    box.style.top = layout[index].top;
+                    box.value = layout[index].value;
+                    resizeInput(box);
+                });
+                alert('Layout loaded!');
+            } else {
+                alert('No saved layout found.');
+            }
         }
     </script>
 </body>
