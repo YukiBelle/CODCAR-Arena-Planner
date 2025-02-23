@@ -116,19 +116,19 @@
                 // Draw the box
                 ctx.fillStyle = 'white';
                 ctx.fillRect(x, y, box.offsetWidth, box.offsetHeight);
-                ctx.strokeStyle = window.getComputedStyle(box).borderColor;
+                ctx.strokeStyle = box.style.borderColor;
                 ctx.lineWidth = 2;
                 ctx.strokeRect(x, y, box.offsetWidth, box.offsetHeight);
 
                 // Draw the text
-                ctx.fillStyle = window.getComputedStyle(box).color;
-                ctx.font = '16px Arial';
+                ctx.fillStyle = box.style.color;
+                ctx.font = '14px Arial';
                 ctx.fillText(box.value || box.placeholder, x + 5, y + 16); // Adjust for padding and baseline
             });
 
             // Export canvas
             const link = document.createElement("a");
-            link.download = "arena_layout.png";
+            link.download = "CODCAR_layout.png";
             link.href = canvas.toDataURL("image/png");
             link.click();
         }
