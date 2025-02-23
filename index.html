@@ -5,53 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CODCAR Arena Planner</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
+        body { text-align: center; font-family: Arial, sans-serif; position: relative; }
         canvas { border: 1px solid black; }
         .controls { margin-top: 10px; }
         .name-input { margin: 5px; }
+        .text-box {
+            position: absolute;
+            height: 24px;
+            background-color: white;
+            border: 2px solid black;
+            text-align: left;
+            padding-left: 5px;
+            transition: width 0.2s;
+            box-sizing: border-box;
+            width: 80px; /* Default width for placeholder */
+        }
+        .healer { border-color: #20b82b; color: #20b82b; }
+        .tank { border-color: #1864d6; color: #1864d6; }
+        .dps { border-color: #d61818; color: #d61818; }
+        #text-measure {
+            position: absolute;
+            visibility: hidden;
+            white-space: nowrap;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-    <h1>FFXIV Arena Layout</h1>
-    <canvas id="arenaCanvas" width="600" height="600"></canvas>
+    <h1>CODCAR Arena Planner</h1>
+    <div style="position: relative; display: inline-block;">
+        <canvas id="arenaCanvas" width="1920" height="1080"></canvas>
+        <!-- A1 DPS Boxes -->
+		<input type="text" class="text-box dps" style="left: 143px; top: 609px;" placeholder="DPS" oninput="resizeInput(this)">
+        <input type="text" class="text-box dps" style="left: 241px; top: 650px;" placeholder="DPS" oninput="resizeInput(this)">
+		<!-- A2 DPS Boxes -->
+	    <input type="text" class="text-box dps" style="left: 1607px; top: 403px;" placeholder="DPS" oninput="resizeInput(this)">
+        <input type="text" class="text-box dps" style="left: 1723px; top: 445px;" placeholder="DPS" oninput="resizeInput(this)">	
+        <!-- B1/B2 Platform DPS Boxes -->
+        <input type="text" class="text-box dps" style="left: 241px; top: 403px;" placeholder="DPS" oninput="resizeInput(this)">
+        <input type="text" class="text-box dps" style="left: 393px; top: 525px;" placeholder="DPS" oninput="resizeInput(this)">
+        <!-- C1/C2 Platform DPS Boxes -->
+        <input type="text" class="text-box dps" style="left: 1607px; top: 650px;" placeholder="DPS" oninput="resizeInput(this)">
+        <input type="text" class="text-box dps" style="left: 1439px; top: 527px;" placeholder="DPS" oninput="resizeInput(this)">
+		<!-- B1 Tile DPS Boxes -->
+        <input type="text" class="text-box dps" style="left: 567px; top: 72px;" placeholder="DPS" oninput="resizeInput(this)">
+		<!-- B2 Tile DPS Boxes -->
+        <input type="text" class="text-box dps" style="left: 563px; top: 983px;" placeholder="DPS" oninput="resizeInput(this)">
+		<!-- C1 Tile DPS Boxes -->
+        <input type="text" class="text-box dps" style="left: 1230px; top: 72px;" placeholder="DPS" oninput="resizeInput(this)">
+		<!-- C2 Tile DPS Boxes -->
+        <input type="text" class="text-box dps" style="left: 1230px; top: 983px;" placeholder="DPS" oninput="resizeInput(this)">
+        
+        <!-- A1 Healer Box -->
+        <input type="text" class="text-box healer" style="left: 143px; top: 444px;" placeholder="HEALER" oninput="resizeInput(this)">
+		<!-- A2 Healer Box -->
+        <input type="text" class="text-box healer" style="left: 1723px; top: 607px;" placeholder="HEALER" oninput="resizeInput(this)">
+		<!-- B1 Healer Box -->
+        <input type="text" class="text-box healer" style="left: 434px; top: 199px;" placeholder="HEALER" oninput="resizeInput(this)">
+		<!-- B2 Healer Box -->
+        <input type="text" class="text-box healer" style="left: 428px; top: 852px;" placeholder="HEALER" oninput="resizeInput(this)">
+		<!-- C1 Healer Box -->
+        <input type="text" class="text-box healer" style="left: 1360px; top: 199px;" placeholder="HEALER" oninput="resizeInput(this)">
+		<!-- C2 Healer Box -->
+        <input type="text" class="text-box healer" style="left: 1367px; top: 852px;" placeholder="HEALER" oninput="resizeInput(this)">
+        
+        <!-- A1 Tank Box -->
+        <input type="text" class="text-box tank" style="left: 85px; top: 526px;" placeholder="TANK" oninput="resizeInput(this)">
+        <!-- A2 Tank Box -->		
+        <input type="text" class="text-box tank" style="left: 1767px; top: 526px;" placeholder="TANK" oninput="resizeInput(this)">
+		<!-- B1 Tank Box -->	
+        <input type="text" class="text-box tank" style="left: 700px; top: 199px;" placeholder="TANK" oninput="resizeInput(this)">
+		<!-- B2 Tank Box -->	
+        <input type="text" class="text-box tank" style="left: 700px; top: 852px;" placeholder="TANK" oninput="resizeInput(this)">
+		<!-- C1 Tank Box -->	
+        <input type="text" class="text-box tank" style="left: 1095px; top: 199px;" placeholder="TANK" oninput="resizeInput(this)">
+		<!-- C2 Tank Box -->	
+        <input type="text" class="text-box tank" style="left: 1095px; top: 852px;" placeholder="TANK" oninput="resizeInput(this)">
+    </div>
     <div class="controls">
-        <label for="playerName">Enter Name:</label>
-        <input type="text" id="playerName" class="name-input">
-        <label for="symbol">Choose Symbol:</label>
-        <select id="symbol">
-            <option value="⚔️">⚔️</option>
-            <option value="🛡️">🛡️</option>
-            <option value="🔮">🔮</option>
-        </select>
-        <button onclick="placeName()">Place Name</button>
         <button onclick="exportImage()">Save Layout</button>
     </div>
+    <span id="text-measure"></span>
     <script>
         const canvas = document.getElementById("arenaCanvas");
         const ctx = canvas.getContext("2d");
         const arenaImage = new Image();
-        arenaImage.src = "arena.jpg"; // Replace with your actual image file
+        arenaImage.src = "arena.jpg"; // Ensure this path is correct and the image is in the repository
         
         arenaImage.onload = function() {
             ctx.drawImage(arenaImage, 0, 0, canvas.width, canvas.height);
         };
-        
-        function placeName() {
-            const name = document.getElementById("playerName").value;
-            const symbol = document.getElementById("symbol").value;
-            if (!name) return;
-            
-            // Example position (adjust based on role presets)
-            const x = 300; 
-            const y = 300; 
-            
-            ctx.fillStyle = "white";
-            ctx.fillRect(x - 30, y - 15, 100, 30);
-            ctx.fillStyle = "black";
-            ctx.fillText(symbol + " " + name, x, y);
+
+        function resizeInput(input) {
+            const textMeasure = document.getElementById('text-measure');
+            textMeasure.textContent = input.value || input.placeholder;
+            input.style.width = (textMeasure.offsetWidth + 10) + 'px'; // Add a bit of padding
         }
-        
+
         function exportImage() {
+            // Redraw the arena image
+            ctx.drawImage(arenaImage, 0, 0, canvas.width, canvas.height);
+
+            // Draw text boxes onto the canvas
+            const textBoxes = document.querySelectorAll('.text-box');
+            textBoxes.forEach(box => {
+                const x = parseInt(box.style.left, 10);
+                const y = parseInt(box.style.top, 10) + 16; // Adjust for text baseline
+                ctx.fillStyle = box.style.color;
+                ctx.font = '16px Arial';
+                ctx.fillText(box.value || box.placeholder, x, y);
+            });
+
+            // Export canvas
             const link = document.createElement("a");
             link.download = "arena_layout.png";
             link.href = canvas.toDataURL("image/png");
