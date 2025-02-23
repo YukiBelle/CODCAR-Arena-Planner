@@ -122,13 +122,13 @@
 
                 // Draw the text
                 ctx.fillStyle = box.style.color;
-                ctx.font = '16px Arial';
+                ctx.font = '12px Arial';
                 ctx.fillText(box.value || box.placeholder, x + 5, y + 16); // Adjust for padding and baseline
             });
 
             // Export canvas
             const link = document.createElement("a");
-            link.download = "arena_layout.png";
+            link.download = "CODCAR_layout.png";
             link.href = canvas.toDataURL("image/png");
             link.click();
         }
