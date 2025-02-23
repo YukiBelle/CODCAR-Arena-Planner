@@ -116,12 +116,12 @@
                 // Draw the box
                 ctx.fillStyle = 'white';
                 ctx.fillRect(x, y, box.offsetWidth, box.offsetHeight);
-                ctx.strokeStyle = box.style.borderColor;
+                ctx.strokeStyle = window.getComputedStyle(box).borderColor;
                 ctx.lineWidth = 2;
                 ctx.strokeRect(x, y, box.offsetWidth, box.offsetHeight);
 
                 // Draw the text
-                ctx.fillStyle = box.style.color;
+                ctx.fillStyle = window.getComputedStyle(box).color;
                 ctx.font = '16px Arial';
                 ctx.fillText(box.value || box.placeholder, x + 5, y + 16); // Adjust for padding and baseline
             });
